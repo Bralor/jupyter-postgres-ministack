@@ -1,11 +1,38 @@
 version: "3.7"
 services:
-  datascience-workspace:
+
+  jupyter:
+    container_name: "<project>_jupyter"
     image: jupyter/datascience-notebook:python-3.8.6
-    environment:
-      - JUPYTER_TOKEN=password
-    volumes:
-      - ./:/home/jovyan/work
+    restart: "always"
     ports:
       - 8888:8888
-    container_name: datascience-workspace
+    env_file:
+      - config/jupyter.env
+    volumes:
+      - ./:/home/jovyan/work
+
+  postgres:
+    container_name: "<project>_postgres"
+    image: postgres:latest
+    ports:
+      - 5454:5432
+    env_file:
+      - config/postgres.env
+    volumes:
+      - shared/:/var/lib/postgresql/data
+    restart: "always"
+
+  pgadmin4:
+    container_name: "<project>_pgadmin"
+    image: dpage/pgadmin4
+    ports:
+      - 5050:80
+    env_file:
+      - config/pgadmin.env
+    volumes:
+      - shared:/root/.pgadmin
+    restart: "always"
+
+volumes:
+  shared:
