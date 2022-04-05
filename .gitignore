@@ -1,5 +1,5 @@
 /*jupyter caches*/
 .ipynb_checkpoints/
 config/*
-config/
+/config
 
